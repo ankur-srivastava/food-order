@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Cart from './components/cart/Cart';
 import Display from './components/display/Display';
@@ -19,18 +19,31 @@ const [quantity, setQuantity] = useState({
   1: 0,
   2: 0
 })
+
+const [totalCartItems, setTotalCartItems] = useState(0)
+
 const updateQuantity = (id, qty) => {
-  console.log(`In App, id = ${id} and qty = ${qty}`)
   // Correct way to update state
   setQuantity(prevState => ({
     ...prevState,
-    [id]: qty
+    [id]: parseInt(qty)
   }))
 }
 
+useEffect(() => {
+  setTotalCartItems(() => {
+    let total = 0
+    for(const prop in quantity) {
+      total += parseInt(quantity[prop])
+    }
+    return total
+  }, [quantity])
+})
+
   return (
     <div className="App">
-      <Cart items={foodItems} quantity={quantity} updateQuantity={updateQuantity}/>
+      <Cart items={foodItems} quantity={quantity} updateQuantity={updateQuantity} 
+        totalCartItems={totalCartItems}/>
       <Display items={foodItems} quantity={quantity} updateQuantity={updateQuantity}/>
     </div>
   );

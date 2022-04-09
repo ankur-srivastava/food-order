@@ -1,5 +1,5 @@
 const Cart = (props) => {
-    return <h2>{JSON.stringify(props.quantity)}</h2>
+    return <h2>{props.totalCartItems}</h2>
 }
 
 export default Cart
