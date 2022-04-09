@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Cart from './components/cart/Cart';
+import Display from './components/display/Display';
 
 function App() {
+  const foodItems = [{
+    id: 1,
+    name: 'Tea',
+    price: 10
+  },
+  {
+    id: 2,
+    name: 'Coffee',
+    price: 12
+  }
+]
+const [quantity, setQuantity] = useState({
+  1: 0,
+  2: 0
+})
+const updateQuantity = (id, qty) => {
+  console.log(`In App, id = ${id} and qty = ${qty}`)
+  // Correct way to update state
+  setQuantity(prevState => ({
+    ...prevState,
+    [id]: qty
+  }))
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Cart items={foodItems} quantity={quantity} updateQuantity={updateQuantity}/>
+      <Display items={foodItems} quantity={quantity} updateQuantity={updateQuantity}/>
     </div>
   );
 }
