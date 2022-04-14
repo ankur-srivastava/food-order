@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import Cart from './components/Cart/Cart';
 // import Cart from './components/Cart/Cart';
 // import Display from './components/Display/Display';
 import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
 
 function App() {
+  const [showModal, setShowModal] = useState(false)
+  const showModalHandler = () => {
+    setShowModal(true)
+  }
+  const hideModalHandler = () => {
+    setShowModal(false)
+  }
 //   const foodItems = [{
 //     id: 1,
 //     name: 'Tea',
@@ -43,7 +51,8 @@ function App() {
 // })
 
   return <React.Fragment>
-    <Header />
+    {showModal && <Cart hideModalHandler={hideModalHandler} />}
+    <Header showModalHandler={showModalHandler}/>
     <main>
       <Meals />
     </main>

@@ -7,7 +7,7 @@ const Header = (props) => {
     return <React.Fragment>
         <header className={styles.header}>
             <h1>OrderFood</h1>
-            <HeaderCartButton />
+            <HeaderCartButton showModalHandler={props.showModalHandler}/>
         </header>
         <div className={styles['main-image']}>
             <img src={foodImage} alt="Food" />
