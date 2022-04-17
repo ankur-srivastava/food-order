@@ -5,6 +5,7 @@ import Cart from './components/Cart/Cart';
 // import Display from './components/Display/Display';
 import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
+import CartProvider from './store/CartProvider';
 
 function App() {
   const [showModal, setShowModal] = useState(false)
@@ -50,7 +51,7 @@ function App() {
 //   }, [quantity])
 // })
 
-  return <React.Fragment>
+  return <CartProvider>
     {showModal && <Cart hideModalHandler={hideModalHandler} />}
     <Header showModalHandler={showModalHandler}/>
     <main>
@@ -61,7 +62,7 @@ function App() {
         totalCartItems={totalCartItems}/>
       <Display items={foodItems} quantity={quantity} updateQuantity={updateQuantity}/>
     </div> */}
-  </React.Fragment>
+    </CartProvider>
 }
 
 export default App;
