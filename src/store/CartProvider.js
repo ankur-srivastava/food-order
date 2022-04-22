@@ -12,8 +12,50 @@ const defaultCartState = {
 // return new state
 const cartReducer = (state, action) => {
     if(action.type === 'ADD') {
-        const updatedItems = state.items.concat(action.item)
-        const updatedTotalAmount = state.totalAmount + action.item.price*action.item.quantity
+        const updatedTotalAmount = state.items.reduce((prev, next) => {
+            return prev+next.price*next.quantity
+        }, 0)
+
+        const existingCartItemIndex = state.items.findIndex((item)=>{
+            return item.id === action.item.id
+        })
+
+        const existingCartItem = state.items[existingCartItemIndex]
+        let updatedItems
+
+        if(existingCartItem) {
+            const updatedItem = {
+                ...existingCartItem,
+                quantity: action.item.quantity + existingCartItem.quantity
+            }
+
+            updatedItems = [...state.items]
+            updatedItems[existingCartItemIndex] = updatedItem
+        } else {
+            updatedItems = state.items.concat(action.item)
+        }
+
+        return {
+            items: updatedItems,
+            totalAmount: updatedTotalAmount
+        }
+    } else if(action.type === 'REMOVE') {
+        const existingIndex = state.items.findIndex((item) => {
+            return item.id === action.id
+        })
+        const existingItem = state.items[existingIndex]
+        const updatedTotalAmount = state.totalAmount - existingItem.price
+        let updatedItems
+
+        // Two cases : if we have only 1 item then removing that should remove the item 
+        // from list else normal removal
+        if(existingItem.quantity === 1) {
+            updatedItems = state.items.filter(item => item.id !== action.id)
+        } else {
+            const updatedItem = {...existingItem, quantity: existingItem.quantity-1}
+            updatedItems[existingItem] = updatedItem
+        }
+        console.log('updatedTotalAmount = ', updatedTotalAmount)
         return {
             items: updatedItems,
             totalAmount: updatedTotalAmount
